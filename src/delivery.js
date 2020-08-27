@@ -1,18 +1,6 @@
+const {getDeliveryTimeModel} = require("../src/deliveryTimeModel")
 function calculateDeliveryTime(anOrder,value) {
-  let deliveryTime;
-  if ([
-    'MA',
-    'CT',
-  ].includes(anOrder.deliveryState)) {
-    deliveryTime = value;
-  } else if ([
-    'NY',
-    'NH',
-  ].includes(anOrder.deliveryState)) {
-    deliveryTime = value+1;
-  } else {
-    deliveryTime = value+2;
-  }
+  let deliveryTime = getDeliveryTimeModel(true,anOrder.deliveryState);
   return anOrder.placedOn.plusDays(value + deliveryTime);
 }
 

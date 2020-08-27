@@ -1,0 +1,43 @@
+let model = {
+  "MA": ma,
+  "CT": ct,
+  "NY": ny,
+  "NH": nh
+}
+
+function ma(isRush) {
+  return isRushDeliveryTime(isRush);
+}
+
+function ct(isRush) {
+  return isRushDeliveryTime(isRush);
+}
+
+function ny(isRush) {
+  return isRushDeliveryTime(isRush) + 1;
+}
+
+function nh(isRush) {
+  return isRushDeliveryTime(isRush) + 1;
+}
+
+function defaultResult(isRush) {
+  return isRushDeliveryTime(isRush) + 2;
+}
+
+function isRushDeliveryTime(isRush) {
+    return 1;
+}
+
+function getDeliveryTimeModel(isRush, deliveryState) {
+  let deliveryTime = 0;
+  if (!model.hasOwnProperty(deliveryState)) {
+    return defaultResult(isRush);
+  }
+  deliveryTime = model[deliveryState](isRush)
+  return deliveryTime;
+}
+
+module.exports = {
+  getDeliveryTimeModel
+}

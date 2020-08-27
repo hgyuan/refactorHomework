@@ -1,7 +1,7 @@
 const {printOwing} = require('../src/print')
 const test = require('ava');
 
-test("",t=>{
+test("test should return information when printOwing given invoice",t=>{
   let invoice={
     customer:"RICHARD",
     dueDate: Date,

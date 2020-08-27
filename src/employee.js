@@ -6,11 +6,7 @@ class Employee {
   }
 
   validateType (type) {
-    if (![
-      'engineer',
-      'manager',
-      'salesman',
-    ].includes(type)) {
+    if (!employeeType.includes(type)) {
       throw new Error(`Employee cannot be of type ${type}`);
     }
   }
@@ -18,4 +14,14 @@ class Employee {
   toString () {
     return `${this._name} (${this._type})`;
   }
+}
+
+var employeeType = [
+  'engineer',
+  'manager',
+  'salesman',
+];
+
+module.exports = {
+  Employee,toString
 }

@@ -1,31 +1,30 @@
-function calculateDeliveryTime(anOrder) {
+function calculateDeliveryTime(anOrder,value) {
   let deliveryTime;
   if ([
     'MA',
     'CT',
   ].includes(anOrder.deliveryState)) {
-    deliveryTime = 1;
+    deliveryTime = value;
   } else if ([
     'NY',
     'NH',
   ].includes(anOrder.deliveryState)) {
-    deliveryTime = 2;
+    deliveryTime = value+1;
   } else {
-    deliveryTime = 3;
+    deliveryTime = value+2;
   }
-  return anOrder.placedOn.plusDays(1 + deliveryTime);
+  return anOrder.placedOn.plusDays(value + deliveryTime);
 }
 
 function deliveryDate (anOrder, isRush) {
   if (isRush) {
-    return calculateDeliveryTime(anOrder);
+    return calculateDeliveryTime(anOrder,1);
   }
   else {
     let deliveryTime;
     if ([
       'MA',
       'CT',
-
       'NY',
     ].includes(anOrder.deliveryState)) {
       deliveryTime = 2;

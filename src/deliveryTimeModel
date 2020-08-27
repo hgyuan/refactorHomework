@@ -2,7 +2,8 @@ let model = {
   "MA": ma,
   "CT": ct,
   "NY": ny,
-  "NH": nh
+  "NH": nh,
+  "NE":ne
 }
 
 function ma(isRush) {
@@ -14,10 +15,19 @@ function ct(isRush) {
 }
 
 function ny(isRush) {
-  return isRushDeliveryTime(isRush) + 1;
+  if(isRush){
+    return isRushDeliveryTime(isRush) + 1;
+  }else {
+    return isRushDeliveryTime(isRush)
+  }
+
 }
 
 function nh(isRush) {
+  return isRushDeliveryTime(isRush) + 1;
+}
+
+function ne(isRush) {
   return isRushDeliveryTime(isRush) + 1;
 }
 
@@ -26,7 +36,11 @@ function defaultResult(isRush) {
 }
 
 function isRushDeliveryTime(isRush) {
+  if(isRush)
     return 1;
+  else {
+    return 2;
+  }
 }
 
 function getDeliveryTimeModel(isRush, deliveryState) {

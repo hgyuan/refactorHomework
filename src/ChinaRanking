@@ -10,6 +10,14 @@ class ChinaRanking extends Ranking {
     return Math.max(result, 0);
   }
 
+  calculateResultByHistoryLengthAndVoyage(voyage, history) {
+    let result = 3;
+    result += this.increaseByHistoryLength(history, 10, 1);
+    result += this.increaseByVoyageLength(voyage, 12, -1);
+    result += this.decreaseVpfByVoyageLength(voyage, 18, 1);
+    return result;
+  }
+
 }
 
 module.exports = {

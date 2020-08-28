@@ -59,22 +59,16 @@ class Ranking {
     if (voyage.zone === 'east-indies') {
       result += 1;
     }
-    result = this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
+    result += this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
     return result;
   }
 
-  calculateResultByHistoryLengthAndVoyage(voyage, history, result) {
-    if (voyage.zone === 'china' && this.hasChina(history)) {
-      result += 3;
-      result += this.increaseByHistoryLength(history, 10, 1);
-      result += this.increaseByVoyageLength(voyage, 12, -1);
-      result += this.decreaseVpfByVoyageLength(voyage, 18, 1);
-    } else {
-      if (history.length > 8) {
-        result += 1;
-      }
-      result += this.decreaseVpfByVoyageLength(voyage, 14);
+  calculateResultByHistoryLengthAndVoyage(voyage, history) {
+    let result = 0;
+    if (history.length > 8) {
+      result += 1;
     }
+    result += this.decreaseVpfByVoyageLength(voyage, 14);
     return result;
   }
 

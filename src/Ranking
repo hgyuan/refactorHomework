@@ -59,6 +59,11 @@ class Ranking {
     if (voyage.zone === 'east-indies') {
       result += 1;
     }
+    result = this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
+    return result;
+  }
+
+  calculateResultByHistoryLengthAndVoyage(voyage, history, result) {
     if (voyage.zone === 'china' && this.hasChina(history)) {
       result += 3;
       result += this.increaseByHistoryLength(history, 10, 1);

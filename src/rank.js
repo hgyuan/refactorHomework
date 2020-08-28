@@ -1,11 +1,7 @@
 function voyageRisk(voyage) {
   let result = 1;
-  if (voyage.length > 4) {
-    result += 2;
-  }
-  if (voyage.length > 8) {
-    result += voyage.length - 8;
-  }
+  result += increaseVpfByVoyageLength(voyage, 4, 2);
+  result += increaseVpfByVoyageLength(voyage, 8, voyage.length - 8);
   if ([
     'china',
     'east-indies',
@@ -31,14 +27,14 @@ function captainHistoryRisk(voyage, history) {
   return Math.max(result, 0);
 }
 
-function decreaseVpfByVoyageLength(voyage,voyageLengthValue,resultValue) {
+function decreaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
   if (voyage.length > voyageLengthValue) {
     return resultValue;
   }
   return 0;
 }
 
-function increaseVpfByVoyageLength(voyage,voyageLengthValue,resultValue) {
+function increaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
   if (voyage.length > voyageLengthValue) {
     return resultValue;
   }
@@ -58,13 +54,13 @@ function voyageProfitFactor(voyage, history) {
     if (history.length > 10) {
       result += 1;
     }
-    result += increaseVpfByVoyageLength(voyage,12,-1);
-    result += decreaseVpfByVoyageLength(voyage,18,1);
+    result += increaseVpfByVoyageLength(voyage, 12, -1);
+    result += decreaseVpfByVoyageLength(voyage, 18, 1);
   } else {
     if (history.length > 8) {
       result += 1;
     }
-    result += decreaseVpfByVoyageLength(voyage,14);
+    result += decreaseVpfByVoyageLength(voyage, 14);
   }
   return result;
 }

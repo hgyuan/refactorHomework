@@ -19,21 +19,15 @@ class Ranking {
 
   captainHistoryRisk(voyage, history) {
     let result = 1;
-    if (history.length < 5) {
-      result += 4;
-    }
+    result += history.length < 5 ? 4 : 0;
     result += history.filter(v => v.profit < 0).length;
     return Math.max(result, 0);
   }
 
   voyageProfitFactor(voyage, history) {
     let result = 2;
-    if (voyage.zone === 'china') {
-      result += 1;
-    }
-    if (voyage.zone === 'east-indies') {
-      result += 1;
-    }
+    result += voyage.zone === 'china' ? 1 : 0;
+    result += voyage.zone === 'east-indies' ? 1 : 0;
     result += this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
     return result;
   }
@@ -48,32 +42,21 @@ class Ranking {
 
   calculateResultByHistoryLengthAndVoyage(voyage, history) {
     let result = 0;
-    if (history.length > 8) {
-      result += 1;
-    }
+    result += history.length > 8 ? -1 : 0;
     result += this.decreaseVpfByVoyageLength(voyage, 14);
     return result;
   }
 
   decreaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
-    if (voyage.length > voyageLengthValue) {
-      return resultValue;
-    }
-    return 0;
+    return voyage.length > voyageLengthValue ? resultValue : 0;
   }
 
   increaseByVoyageLength(voyage, voyageLengthValue, resultValue) {
-    if (voyage.length > voyageLengthValue) {
-      return resultValue;
-    }
-    return 0;
+    return voyage.length > voyageLengthValue ? resultValue : 0;
   }
 
   increaseByHistoryLength(history, historyLengthValue, resultValue) {
-    if (history.length > historyLengthValue) {
-      return resultValue;
-    }
-    return 0;
+    return history.length > historyLengthValue ? resultValue : 0;
   }
 
 }

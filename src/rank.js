@@ -31,16 +31,16 @@ function captainHistoryRisk(voyage, history) {
   return Math.max(result, 0);
 }
 
-function decreaseVpfByVoyageLength(voyage,value) {
-  if (voyage.length > value) {
-    return -1;
+function decreaseVpfByVoyageLength(voyage,voyageLengthValue,resultValue) {
+  if (voyage.length > voyageLengthValue) {
+    return resultValue;
   }
   return 0;
 }
 
-function increaseVpfByVoyageLength(voyage,value) {
-  if (voyage.length > value) {
-    return 1;
+function increaseVpfByVoyageLength(voyage,voyageLengthValue,resultValue) {
+  if (voyage.length > voyageLengthValue) {
+    return resultValue;
   }
   return 0;
 }
@@ -58,15 +58,13 @@ function voyageProfitFactor(voyage, history) {
     if (history.length > 10) {
       result += 1;
     }
-    result += increaseVpfByVoyageLength(voyage,12);
-    result += decreaseVpfByVoyageLength(voyage,18);
+    result += increaseVpfByVoyageLength(voyage,12,-1);
+    result += decreaseVpfByVoyageLength(voyage,18,1);
   } else {
     if (history.length > 8) {
       result += 1;
     }
-    if (voyage.length > 14) {
-      result -= 1;
-    }
+    result += decreaseVpfByVoyageLength(voyage,14);
   }
   return result;
 }

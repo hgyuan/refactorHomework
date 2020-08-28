@@ -84,10 +84,7 @@ class Ranking {
   }
 }
 
-function ranking(voyage, history) {
-  return new Ranking(voyage, history).rating()
-}
 
 module.exports = {
-  ranking,
+  Ranking,
 }

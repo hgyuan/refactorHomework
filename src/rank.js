@@ -1,7 +1,11 @@
-const {ranking} = require("../src/Ranking")
+const {ranking, Ranking} = require("../src/Ranking")
+const {ChinaRanking} = require("../src/ChinaRanking")
 
 function rating(voyage, history) {
-  return ranking(voyage,history);
+  if (voyage.zone === 'china' && history.some(v => 'china' === v.zone)) {
+    return new ChinaRanking(voyage, history).rating();
+  }
+  return new Ranking(voyage, history).rating();
 }
 
 module.exports = {

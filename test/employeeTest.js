@@ -1,7 +1,7 @@
 const {Employee} = require('../src/employee')
 const test = require('ava');
 
-test("should",t=>{
+test("should throw error when new employee given empty type",t=>{
   try {
     const employee = new Employee("", "");
 

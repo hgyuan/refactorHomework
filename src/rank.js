@@ -41,6 +41,13 @@ function increaseByVoyageLength(voyage, voyageLengthValue, resultValue) {
   return 0;
 }
 
+function increaseByHistoryLength(history, historyLengthValue, resultValue) {
+  if (voyage.length > historyLengthValue) {
+    return resultValue;
+  }
+  return 0;
+}
+
 function voyageProfitFactor(voyage, history) {
   let result = 2;
   if (voyage.zone === 'china') {
@@ -51,9 +58,7 @@ function voyageProfitFactor(voyage, history) {
   }
   if (voyage.zone === 'china' && hasChina(history)) {
     result += 3;
-    if (history.length > 10) {
-      result += 1;
-    }
+    result+=increaseByHistoryLength(history,10,1);
     result += increaseByVoyageLength(voyage, 12, -1);
     result += decreaseVpfByVoyageLength(voyage, 18, 1);
   } else {

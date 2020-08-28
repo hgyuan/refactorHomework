@@ -1,86 +1,11 @@
-function voyageRisk(voyage) {
-  let result = 1;
-  result += increaseByVoyageLength(voyage, 4, 2);
-  result += increaseByVoyageLength(voyage, 8, voyage.length - 8);
-  if ([
-    'china',
-    'east-indies',
-  ].includes(voyage.zone)) {
-    result += 4;
-  }
-  return Math.max(result, 0);
-}
-
-function hasChina(history) {
-  return history.some(v => 'china' === v.zone);
-}
-
-function captainHistoryRisk(voyage, history) {
-  let result = 1;
-  if (history.length < 5) {
-    result += 4;
-  }
-  result += history.filter(v => v.profit < 0).length;
-  if (voyage.zone === 'china' && hasChina(history)) {
-    result -= 2;
-  }
-  return Math.max(result, 0);
-}
-
-function decreaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
-  if (voyage.length > voyageLengthValue) {
-    return resultValue;
-  }
-  return 0;
-}
-
-function increaseByVoyageLength(voyage, voyageLengthValue, resultValue) {
-  if (voyage.length > voyageLengthValue) {
-    return resultValue;
-  }
-  return 0;
-}
-
-function increaseByHistoryLength(history, historyLengthValue, resultValue) {
-  if (voyage.length > historyLengthValue) {
-    return resultValue;
-  }
-  return 0;
-}
-
-function voyageProfitFactor(voyage, history) {
-  let result = 2;
-  if (voyage.zone === 'china') {
-    result += 1;
-  }
-  if (voyage.zone === 'east-indies') {
-    result += 1;
-  }
-  if (voyage.zone === 'china' && hasChina(history)) {
-    result += 3;
-    result+=increaseByHistoryLength(history,10,1);
-    result += increaseByVoyageLength(voyage, 12, -1);
-    result += decreaseVpfByVoyageLength(voyage, 18, 1);
-  } else {
-    if (history.length > 8) {
-      result += 1;
-    }
-    result += decreaseVpfByVoyageLength(voyage, 14);
-  }
-  return result;
-}
+const {ranking} = require("../src/Ranking")
 
 function rating(voyage, history) {
-  const vpf = voyageProfitFactor(voyage, history);
-  const vr = voyageRisk(voyage);
-  const chr = captainHistoryRisk(voyage, history);
-  return vpf * 3 > (vr + chr * 2) ? 'A' : 'B';
+  return ranking(voyage,history);
 }
 
 module.exports = {
   rating,
-  captainHistoryRisk,
-  voyageProfitFactor
 };
 
 const voyage = {

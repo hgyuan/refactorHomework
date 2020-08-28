@@ -1,0 +1,93 @@
+class Ranking {
+  constructor(voyage, history) {
+    this.voyage = voyage;
+    this.history = history;
+  }
+
+  voyageRisk(voyage) {
+    let result = 1;
+    result += this.increaseByVoyageLength(voyage, 4, 2);
+    result += this.increaseByVoyageLength(voyage, 8, voyage.length - 8);
+    if ([
+      'china',
+      'east-indies',
+    ].includes(voyage.zone)) {
+      result += 4;
+    }
+    return Math.max(result, 0);
+  }
+
+  hasChina(history) {
+    return history.some(v => 'china' === v.zone);
+  }
+
+  captainHistoryRisk(voyage, history) {
+    let result = 1;
+    if (history.length < 5) {
+      result += 4;
+    }
+    result += history.filter(v => v.profit < 0).length;
+    if (voyage.zone === 'china' && this.hasChina(history)) {
+      result -= 2;
+    }
+    return Math.max(result, 0);
+  }
+
+  decreaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
+    if (voyage.length > voyageLengthValue) {
+      return resultValue;
+    }
+    return 0;
+  }
+
+  increaseByVoyageLength(voyage, voyageLengthValue, resultValue) {
+    if (voyage.length > voyageLengthValue) {
+      return resultValue;
+    }
+    return 0;
+  }
+
+  increaseByHistoryLength(history, historyLengthValue, resultValue) {
+    if (history.length > historyLengthValue) {
+      return resultValue;
+    }
+    return 0;
+  }
+
+  voyageProfitFactor(voyage, history) {
+    let result = 2;
+    if (voyage.zone === 'china') {
+      result += 1;
+    }
+    if (voyage.zone === 'east-indies') {
+      result += 1;
+    }
+    if (voyage.zone === 'china' && this.hasChina(history)) {
+      result += 3;
+      result += this.increaseByHistoryLength(history, 10, 1);
+      result += this.increaseByVoyageLength(voyage, 12, -1);
+      result += this.decreaseVpfByVoyageLength(voyage, 18, 1);
+    } else {
+      if (history.length > 8) {
+        result += 1;
+      }
+      result += this.decreaseVpfByVoyageLength(voyage, 14);
+    }
+    return result;
+  }
+
+  rating() {
+    const vpf = this.voyageProfitFactor(this.voyage, this.history);
+    const vr = this.voyageRisk(this.voyage);
+    const chr = this.captainHistoryRisk(this.voyage, this.history);
+    return vpf * 3 > (vr + chr * 2) ? 'A' : 'B';
+  }
+}
+
+function ranking(voyage, history) {
+  return new Ranking(voyage, history).rating()
+}
+
+module.exports = {
+  ranking,
+}

@@ -27,9 +27,6 @@ class Ranking {
       result += 4;
     }
     result += history.filter(v => v.profit < 0).length;
-    if (voyage.zone === 'china' && this.hasChina(history)) {
-      result -= 2;
-    }
     return Math.max(result, 0);
   }
 

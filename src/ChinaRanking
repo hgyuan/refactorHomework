@@ -5,6 +5,11 @@ class ChinaRanking extends Ranking {
     super(voyage,history);
   }
 
+  captainHistoryRisk(voyage, history) {
+    let result = super.captainHistoryRisk(voyage,history) - 2;
+    return Math.max(result, 0);
+  }
+
 }
 
 module.exports = {

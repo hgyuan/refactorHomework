@@ -17,10 +17,6 @@ class Ranking {
     return Math.max(result, 0);
   }
 
-  hasChina(history) {
-    return history.some(v => 'china' === v.zone);
-  }
-
   captainHistoryRisk(voyage, history) {
     let result = 1;
     if (history.length < 5) {
@@ -28,6 +24,35 @@ class Ranking {
     }
     result += history.filter(v => v.profit < 0).length;
     return Math.max(result, 0);
+  }
+
+  voyageProfitFactor(voyage, history) {
+    let result = 2;
+    if (voyage.zone === 'china') {
+      result += 1;
+    }
+    if (voyage.zone === 'east-indies') {
+      result += 1;
+    }
+    result += this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
+    return result;
+  }
+
+
+  rating() {
+    const vpf = this.voyageProfitFactor(this.voyage, this.history);
+    const vr = this.voyageRisk(this.voyage);
+    const chr = this.captainHistoryRisk(this.voyage, this.history);
+    return vpf * 3 > (vr + chr * 2) ? 'A' : 'B';
+  }
+
+  calculateResultByHistoryLengthAndVoyage(voyage, history) {
+    let result = 0;
+    if (history.length > 8) {
+      result += 1;
+    }
+    result += this.decreaseVpfByVoyageLength(voyage, 14);
+    return result;
   }
 
   decreaseVpfByVoyageLength(voyage, voyageLengthValue, resultValue) {
@@ -51,33 +76,6 @@ class Ranking {
     return 0;
   }
 
-  voyageProfitFactor(voyage, history) {
-    let result = 2;
-    if (voyage.zone === 'china') {
-      result += 1;
-    }
-    if (voyage.zone === 'east-indies') {
-      result += 1;
-    }
-    result += this.calculateResultByHistoryLengthAndVoyage(voyage, history, result);
-    return result;
-  }
-
-  calculateResultByHistoryLengthAndVoyage(voyage, history) {
-    let result = 0;
-    if (history.length > 8) {
-      result += 1;
-    }
-    result += this.decreaseVpfByVoyageLength(voyage, 14);
-    return result;
-  }
-
-  rating() {
-    const vpf = this.voyageProfitFactor(this.voyage, this.history);
-    const vr = this.voyageRisk(this.voyage);
-    const chr = this.captainHistoryRisk(this.voyage, this.history);
-    return vpf * 3 > (vr + chr * 2) ? 'A' : 'B';
-  }
 }
 
 
